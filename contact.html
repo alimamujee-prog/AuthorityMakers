@@ -96,14 +96,29 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
       box-shadow: 0 4px 30px rgba(0,0,0,0.3), 0 0 60px rgba(24,94,114,0.08);
     }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .nav-brand:hover {
+      transform: scale(1.03);
+      filter: drop-shadow(0 0 12px rgba(200,164,110,0.4));
+    }
     .nav-logo {
       height: 48px;
       width: auto;
-      transition: transform 0.3s ease, filter 0.3s ease;
     }
-    .nav-logo:hover {
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 12px rgba(200,164,110,0.4));
+    .nav-brand-name {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      text-shadow: 0 0 20px rgba(200,164,110,0.3), 0 0 40px rgba(200,164,110,0.1);
     }
     .nav-right { display: flex; align-items: center; gap: 40px; }
     .nav-links { display: flex; gap: 32px; list-style: none; }
@@ -293,24 +308,36 @@
 
     .form-submit {
       width: 100%;
-      padding: 16px;
+      padding: 3px;
+      background: conic-gradient(from var(--r, 0deg), #185E72, #1d9bb8, #c8a46e, #185E72);
+      animation: rotateGradient 3s linear infinite;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 16px var(--midnight-glow);
+      margin-top: 8px;
+      overflow: visible;
+    }
+    .form-submit span {
+      display: block;
       background: var(--midnight);
       color: var(--text-light);
-      border: none;
-      border-radius: 10px;
+      border-radius: 47px;
+      padding: 16px 32px;
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 600;
       letter-spacing: 0.03em;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
-      box-shadow: 0 2px 16px var(--midnight-glow);
-      margin-top: 8px;
+      transition: background 0.3s ease;
+      text-align: center;
     }
     .form-submit:hover {
-      background: var(--midnight-hover);
       transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(24,94,114,0.35), 0 0 48px rgba(24,94,114,0.12);
+      box-shadow: 0 8px 32px rgba(24,94,114,0.4), 0 0 48px rgba(24,94,114,0.15);
+    }
+    .form-submit:hover span {
+      background: var(--midnight-hover);
     }
 
     /* ── REVEAL ── */
@@ -345,6 +372,8 @@
       #nav { padding: 0 24px; height: 64px; }
       .nav-links { display: none; }
       .nav-logo { height: 36px; }
+      .nav-brand { gap: 10px; }
+      .nav-brand-name { font-size: 18px; }
       .nav-cta span { padding: 10px 20px; font-size: 13px; }
     }
   </style>
@@ -353,7 +382,10 @@
 
   <!-- Nav -->
   <nav id="nav">
-    <a href="index.html"><img class="nav-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers"></a>
+    <a href="index.html" class="nav-brand">
+      <img class="nav-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers">
+      <span class="nav-brand-name">Authority Makers</span>
+    </a>
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="index.html#hero">About</a></li>
@@ -418,7 +450,7 @@
         <label for="message">Message</label>
         <textarea id="message" placeholder="Tell us about your firm and what you're looking to achieve..."></textarea>
       </div>
-      <button type="submit" class="form-submit">Send Message</button>
+      <button type="submit" class="form-submit"><span>Send Message</span></button>
     </form>
 
   </div>
