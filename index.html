@@ -16,6 +16,8 @@
       --light-warm: #f0ebe3;
       --gold: #c8a46e;
       --gold-hover: #d4b07a;
+      --midnight: #0b1d3a;
+      --midnight-hover: #132d54;
       --text-light: #ffffff;
       --text-muted: rgba(255,255,255,0.6);
       --text-dark: #1a1a1a;
@@ -118,8 +120,8 @@
     .nav-cta {
       display: inline-block;
       padding: 10px 24px;
-      background: var(--gold);
-      color: var(--dark);
+      background: var(--midnight);
+      color: var(--text-light);
       font-size: 13px;
       font-weight: 600;
       text-decoration: none;
@@ -127,7 +129,7 @@
       border-radius: 4px;
       transition: background 0.3s;
     }
-    .nav-cta:hover { background: var(--gold-hover); }
+    .nav-cta:hover { background: var(--midnight-hover); }
 
     /* ══════════════════════════════════════════
        VIDEO HERO ZONE
@@ -148,6 +150,50 @@
       transition: opacity 0.6s ease;
     }
     #scrollVideo.fade-out { opacity: 0; }
+
+    /* ── Video Overlay Text ── */
+    #video-text {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    #video-text.visible { opacity: 1; }
+    #video-text.fade-out { opacity: 0; }
+
+    .video-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(56px, 9vw, 120px);
+      font-weight: 700;
+      color: var(--text-light);
+      text-align: center;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    }
+
+    .video-headline .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .video-headline .word.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .video-headline .word:nth-child(2) {
+      transition-delay: 0.2s;
+    }
 
     /* ── Scroll indicator ── */
     #scroll-hint {
@@ -207,12 +253,12 @@
 
     .hero-headline {
       font-family: var(--font-heading);
-      font-size: clamp(40px, 5.5vw, 72px);
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      font-size: clamp(56px, 8vw, 100px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
       color: var(--text-light);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .hero-sub {
@@ -226,8 +272,8 @@
     .hero-cta {
       display: inline-block;
       padding: 16px 40px;
-      background: var(--gold);
-      color: var(--dark);
+      background: var(--midnight);
+      color: var(--text-light);
       font-size: 15px;
       font-weight: 600;
       text-decoration: none;
@@ -235,7 +281,7 @@
       border-radius: 4px;
       transition: background 0.3s, transform 0.2s;
     }
-    .hero-cta:hover { background: var(--gold-hover); transform: translateY(-1px); }
+    .hero-cta:hover { background: var(--midnight-hover); transform: translateY(-1px); }
 
     .hero-micro {
       margin-top: 16px;
@@ -445,8 +491,8 @@
     .final-cta-btn {
       display: inline-block;
       padding: 18px 48px;
-      background: var(--gold);
-      color: var(--dark);
+      background: var(--midnight);
+      color: var(--text-light);
       font-size: 16px;
       font-weight: 600;
       text-decoration: none;
@@ -454,7 +500,7 @@
       border-radius: 4px;
       transition: background 0.3s, transform 0.2s;
     }
-    .final-cta-btn:hover { background: var(--gold-hover); transform: translateY(-1px); }
+    .final-cta-btn:hover { background: var(--midnight-hover); transform: translateY(-1px); }
 
     .final-micro {
       margin-top: 16px;
@@ -487,6 +533,8 @@
        RESPONSIVE
     ══════════════════════════════════════════ */
     @media (max-width: 768px) {
+      .video-headline { font-size: clamp(40px, 12vw, 72px); }
+
       #nav {
         padding: 0 20px;
         height: 64px;
@@ -550,6 +598,12 @@
       <source src="Authority Makers Animation Video.mp4" type="video/mp4">
     </video>
 
+    <div id="video-text">
+      <h2 class="video-headline">
+        <span class="word">Become</span> <span class="word">Undeniable.</span>
+      </h2>
+    </div>
+
     <div id="scroll-hint">
       <span>Scroll</span>
       <div class="scroll-line"></div>
@@ -564,7 +618,7 @@
     <!-- Hero (Dark) -->
     <section id="hero">
       <div class="section-inner">
-        <h1 class="hero-headline reveal">Become the Most Trusted Firm<br>in Your Market.</h1>
+        <h1 class="hero-headline reveal">Become Undeniable.</h1>
         <p class="hero-sub reveal">We turn your expertise into a video content engine that attracts better clients, filters bad ones, and fills your calendar.</p>
         <a href="#final-cta" class="hero-cta reveal">Apply to Work With Us</a>
         <p class="hero-micro reveal">We take on a limited number of new clients each month.</p>
@@ -660,6 +714,8 @@
     const loader = document.getElementById('loader');
     const nav = document.getElementById('nav');
     const videoZone = document.getElementById('video-zone');
+    const videoText = document.getElementById('video-text');
+    const words = document.querySelectorAll('.video-headline .word');
     let videoReady = false;
 
     const videoZoneHeight = videoZone.offsetHeight - window.innerHeight;
@@ -703,6 +759,20 @@
         scrollHint.classList.add('hidden');
       } else {
         scrollHint.classList.remove('hidden');
+      }
+
+      // Video overlay text — appear mid-scroll, fade out near end
+      if (videoFraction > 0.25 && videoFraction < 0.85) {
+        videoText.classList.add('visible');
+        videoText.classList.remove('fade-out');
+        words.forEach(w => w.classList.add('show'));
+      } else if (videoFraction >= 0.85) {
+        videoText.classList.add('fade-out');
+        videoText.classList.remove('visible');
+      } else {
+        videoText.classList.remove('visible');
+        videoText.classList.remove('fade-out');
+        words.forEach(w => w.classList.remove('show'));
       }
 
       // Fade out video when leaving video zone
