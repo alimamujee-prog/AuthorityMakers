@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Authority Makers — Become the Most Trusted Firm in Your Market</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --dark: #0a0a0a;
       --dark-surface: #111111;
+      --card-dark: #161616;
+      --card-border: rgba(255,255,255,0.06);
       --light: #f5f2ed;
       --light-warm: #f0ebe3;
       --gold: #c8a46e;
       --gold-hover: #d4b07a;
+      --gold-glow: rgba(200,164,110,0.15);
       --midnight: #185E72;
       --midnight-hover: #1d7089;
+      --midnight-glow: rgba(24,94,114,0.2);
       --text-light: #ffffff;
       --text-muted: rgba(255,255,255,0.6);
       --text-dark: #1a1a1a;
@@ -73,7 +77,7 @@
     }
 
     /* ══════════════════════════════════════════
-       PERSISTENT NAV — always visible
+       PERSISTENT NAV
     ══════════════════════════════════════════ */
     #nav {
       position: fixed;
@@ -146,9 +150,7 @@
       color: var(--text-light);
       text-shadow: 0 0 16px rgba(255,255,255,0.15);
     }
-    .nav-links a:hover::after {
-      width: 100%;
-    }
+    .nav-links a:hover::after { width: 100%; }
 
     .nav-cta {
       display: inline-block;
@@ -180,9 +182,7 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
       transition: left 0.5s ease;
     }
-    .nav-cta:hover::before {
-      left: 100%;
-    }
+    .nav-cta:hover::before { left: 100%; }
 
     /* ══════════════════════════════════════════
        VIDEO HERO ZONE
@@ -244,9 +244,7 @@
       opacity: 1;
       transform: translateY(0) scale(1);
     }
-    .video-headline .word:nth-child(2) {
-      transition-delay: 0.2s;
-    }
+    .video-headline .word:nth-child(2) { transition-delay: 0.2s; }
 
     /* ── Scroll indicator ── */
     #scroll-hint {
@@ -282,6 +280,41 @@
     }
 
     /* ══════════════════════════════════════════
+       SHARED: GLOW CARD
+    ══════════════════════════════════════════ */
+    .glow-card {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 36px 32px;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .glow-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(200,164,110,0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 48px var(--gold-glow);
+    }
+
+    .glow-card-light {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 36px 32px;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .glow-card-light:hover {
+      transform: translateY(-4px);
+      border-color: rgba(24,94,114,0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 0 40px rgba(24,94,114,0.08);
+    }
+
+    /* ══════════════════════════════════════════
        WEBSITE SECTIONS
     ══════════════════════════════════════════ */
     #website {
@@ -293,11 +326,11 @@
       padding: 120px 40px;
     }
     .section-inner {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
     }
 
-    /* ── HERO SECTION (Dark) ── */
+    /* ── HERO (Dark) ── */
     #hero {
       background: var(--dark);
       padding: 140px 40px 120px;
@@ -324,17 +357,35 @@
 
     .hero-cta {
       display: inline-block;
-      padding: 16px 40px;
+      padding: 18px 44px;
       background: var(--midnight);
       color: var(--text-light);
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       text-decoration: none;
       letter-spacing: 0.03em;
-      border-radius: 4px;
-      transition: background 0.3s, transform 0.2s;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+      box-shadow: 0 2px 16px var(--midnight-glow);
     }
-    .hero-cta:hover { background: var(--midnight-hover); transform: translateY(-1px); }
+    .hero-cta:hover {
+      background: var(--midnight-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(24,94,114,0.35), 0 0 48px rgba(24,94,114,0.12);
+    }
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    .hero-cta:hover::before { left: 100%; }
 
     .hero-micro {
       margin-top: 16px;
@@ -345,32 +396,50 @@
     /* ── SOCIAL PROOF BAR (Light) ── */
     #social-proof {
       background: var(--light);
-      padding: 56px 40px;
+      padding: 64px 40px;
+    }
+
+    .proof-stats-grid {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .stat-tile {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 32px 24px;
       text-align: center;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .stat-tile:hover {
+      transform: translateY(-6px);
+      border-color: rgba(24,94,114,0.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 0 40px rgba(24,94,114,0.06);
     }
 
-    .proof-stats {
-      font-family: var(--font-body);
-      font-size: clamp(14px, 1.8vw, 17px);
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--midnight);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
       font-weight: 500;
-      color: var(--text-dark);
-      letter-spacing: 0.06em;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      color: var(--text-dark-muted);
+      letter-spacing: 0.03em;
     }
 
-    .proof-stats .divider {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    /* ── PROBLEM SECTION (Dark) ── */
+    /* ── PROBLEM (Dark) ── */
     #problem {
       background: var(--dark-surface);
     }
@@ -390,28 +459,37 @@
       color: var(--gold);
     }
 
-    .problem-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .problem-grid .glow-card:last-child {
+      grid-column: 1 / -1;
     }
 
-    .problem-list li {
-      font-size: clamp(16px, 1.6vw, 18px);
+    .problem-card-text {
+      font-size: clamp(15px, 1.5vw, 17px);
       color: var(--text-muted);
       line-height: 1.7;
-      padding-left: 24px;
-      position: relative;
     }
-    .problem-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 11px;
-      width: 6px;
-      height: 1px;
-      background: var(--gold);
+
+    .problem-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(200,164,110,0.08);
+      border: 1px solid rgba(200,164,110,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 16px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .glow-card:hover .problem-card-icon {
+      background: rgba(200,164,110,0.12);
+      box-shadow: 0 0 20px rgba(200,164,110,0.15);
     }
 
     /* ── HOW IT WORKS (Light/Warm) ── */
@@ -442,7 +520,7 @@
     .hiw-steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 48px;
+      gap: 28px;
     }
 
     .hiw-step {
@@ -451,11 +529,15 @@
 
     .step-number {
       font-family: var(--font-heading);
-      font-size: 48px;
+      font-size: 56px;
       font-weight: 700;
-      color: rgba(0,0,0,0.06);
+      color: rgba(24,94,114,0.08);
       line-height: 1;
       margin-bottom: 16px;
+      transition: color 0.4s ease;
+    }
+    .glow-card-light:hover .step-number {
+      color: rgba(24,94,114,0.15);
     }
 
     .step-title {
@@ -471,20 +553,45 @@
       line-height: 1.7;
     }
 
-    /* ── PROOF SECTION (Dark) ── */
+    /* ── PROOF (Dark) ── */
     #proof {
       background: var(--dark);
     }
 
+    .proof-card {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 56px 48px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .proof-card:hover {
+      border-color: rgba(200,164,110,0.15);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.3), 0 0 60px var(--gold-glow);
+    }
+    .proof-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .proof-card:hover::before { opacity: 1; }
+
     .proof-quote {
       font-family: var(--font-heading);
-      font-size: clamp(22px, 3vw, 32px);
+      font-size: clamp(22px, 3vw, 30px);
       font-weight: 400;
       font-style: italic;
       line-height: 1.5;
       color: var(--text-light);
       margin-bottom: 32px;
-      max-width: 760px;
       position: relative;
       padding-left: 28px;
     }
@@ -497,21 +604,37 @@
       width: 3px;
       background: var(--gold);
       border-radius: 2px;
+      box-shadow: 0 0 12px rgba(200,164,110,0.3);
+    }
+
+    .proof-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-left: 28px;
     }
 
     .proof-attribution {
       font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 8px;
-      padding-left: 28px;
     }
 
     .proof-result {
-      font-size: 16px;
-      font-weight: 500;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
       color: var(--gold);
-      padding-left: 28px;
-      margin-top: 24px;
+      background: rgba(200,164,110,0.08);
+      border: 1px solid rgba(200,164,110,0.15);
+      border-radius: 8px;
+      padding: 10px 20px;
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .proof-card:hover .proof-result {
+      box-shadow: 0 0 24px rgba(200,164,110,0.15);
+      background: rgba(200,164,110,0.12);
     }
 
     /* ── FINAL CTA (Dark) ── */
@@ -519,6 +642,20 @@
       background: var(--dark-surface);
       text-align: center;
       padding: 140px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    #final-cta::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(24,94,114,0.06) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .final-headline {
@@ -543,17 +680,35 @@
 
     .final-cta-btn {
       display: inline-block;
-      padding: 18px 48px;
+      padding: 20px 52px;
       background: var(--midnight);
       color: var(--text-light);
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
       text-decoration: none;
       letter-spacing: 0.03em;
-      border-radius: 4px;
-      transition: background 0.3s, transform 0.2s;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px var(--midnight-glow);
     }
-    .final-cta-btn:hover { background: var(--midnight-hover); transform: translateY(-1px); }
+    .final-cta-btn:hover {
+      background: var(--midnight-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(24,94,114,0.35), 0 0 60px rgba(24,94,114,0.12);
+    }
+    .final-cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transition: left 0.6s ease;
+    }
+    .final-cta-btn:hover::before { left: 100%; }
 
     .final-micro {
       margin-top: 16px;
@@ -571,7 +726,7 @@
       color: rgba(255,255,255,0.25);
     }
 
-    /* ── Scroll Reveal Animation ── */
+    /* ── Scroll Reveal ── */
     .reveal {
       opacity: 0;
       transform: translateY(32px);
@@ -581,6 +736,10 @@
       opacity: 1;
       transform: translateY(0);
     }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ══════════════════════════════════════════
        RESPONSIVE
@@ -588,30 +747,35 @@
     @media (max-width: 768px) {
       .video-headline { font-size: clamp(40px, 12vw, 72px); }
 
-      #nav {
-        padding: 0 20px;
-        height: 72px;
-      }
+      #nav { padding: 0 20px; height: 72px; }
       #nav.solid { height: 68px; }
       .nav-links { display: none; }
       .nav-logo { height: 36px; }
       .nav-cta { padding: 10px 20px; font-size: 13px; }
 
       .section { padding: 80px 24px; }
+      .section-inner { max-width: 100%; }
 
       #hero { padding: 100px 24px 80px; }
 
-      #social-proof { padding: 40px 24px; }
-      .proof-stats {
-        flex-direction: column;
-        gap: 8px;
+      #social-proof { padding: 48px 24px; }
+      .proof-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
-      .proof-stats .divider { display: none; }
+
+      .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
 
       .hiw-steps {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 20px;
       }
+
+      .proof-card { padding: 36px 24px; }
+      .proof-meta { flex-direction: column; align-items: flex-start; }
 
       #final-cta { padding: 100px 24px; }
     }
@@ -621,6 +785,8 @@
         display: block;
         text-align: center;
       }
+      .glow-card, .glow-card-light { padding: 28px 20px; }
+      .stat-tile { padding: 24px 16px; }
     }
   </style>
 </head>
@@ -631,9 +797,7 @@
     <div class="loader-bar"></div>
   </div>
 
-  <!-- ═══════════════════════════════════════
-       PERSISTENT NAV — visible throughout
-  ═══════════════════════════════════════ -->
+  <!-- Nav -->
   <nav id="nav">
     <img class="nav-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers">
     <div class="nav-right">
@@ -646,20 +810,16 @@
     </div>
   </nav>
 
-  <!-- ═══════════════════════════════════════
-       VIDEO SCROLL ZONE
-  ═══════════════════════════════════════ -->
+  <!-- Video Scroll Zone -->
   <div id="video-zone">
     <video id="scrollVideo" muted playsinline preload="auto">
       <source src="Authority Makers Animation Video.mp4" type="video/mp4">
     </video>
-
     <div id="video-text">
       <h2 class="video-headline">
         <span class="word">Become</span> <span class="word">Undeniable.</span>
       </h2>
     </div>
-
     <div id="scroll-hint">
       <span>Scroll</span>
       <div class="scroll-line"></div>
@@ -681,49 +841,71 @@
       </div>
     </section>
 
-    <!-- Social Proof Bar (Light) -->
+    <!-- Social Proof Bar (Light) — KPI Tiles -->
     <section id="social-proof">
-      <div class="proof-stats reveal">
-        <span>30+ Clients</span>
-        <span class="divider"></span>
-        <span>20M+ Views</span>
-        <span class="divider"></span>
-        <span>3,200+ Qualified Consultations Generated</span>
+      <div class="proof-stats-grid">
+        <div class="stat-tile reveal">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Clients</div>
+        </div>
+        <div class="stat-tile reveal reveal-delay-1">
+          <div class="stat-number">20M+</div>
+          <div class="stat-label">Views Generated</div>
+        </div>
+        <div class="stat-tile reveal reveal-delay-2">
+          <div class="stat-number">3,200+</div>
+          <div class="stat-label">Qualified Consultations</div>
+        </div>
       </div>
     </section>
 
-    <!-- Problem (Dark) -->
+    <!-- Problem (Dark) — Card Tiles -->
     <section id="problem" class="section">
       <div class="section-inner">
         <p class="section-label label-light reveal">Who It's For</p>
         <h2 class="problem-lead reveal">You're good at what you do.<br><em>Nobody outside your network knows it.</em></h2>
-        <ul class="problem-list">
-          <li class="reveal">Referrals plateau. You can't predict next month's pipeline.</li>
-          <li class="reveal">A weaker competitor is more visible online — and stealing your clients.</li>
-          <li class="reveal">You've hired agencies before. You got content. Not consultations.</li>
-          <li class="reveal">Your reputation stops at the edge of your network.</li>
-          <li class="reveal">Every month you wait, someone else is building authority in your market.</li>
-        </ul>
+        <div class="problem-grid">
+          <div class="glow-card reveal">
+            <div class="problem-card-icon">&#9888;</div>
+            <p class="problem-card-text">Referrals plateau. You can't predict next month's pipeline.</p>
+          </div>
+          <div class="glow-card reveal reveal-delay-1">
+            <div class="problem-card-icon">&#9660;</div>
+            <p class="problem-card-text">A weaker competitor is more visible online — and stealing your clients.</p>
+          </div>
+          <div class="glow-card reveal reveal-delay-2">
+            <div class="problem-card-icon">&#10006;</div>
+            <p class="problem-card-text">You've hired agencies before. You got content. Not consultations.</p>
+          </div>
+          <div class="glow-card reveal reveal-delay-3">
+            <div class="problem-card-icon">&#8634;</div>
+            <p class="problem-card-text">Your reputation stops at the edge of your network.</p>
+          </div>
+          <div class="glow-card reveal reveal-delay-4">
+            <div class="problem-card-icon">&#9202;</div>
+            <p class="problem-card-text">Every month you wait, someone else is building authority in your market.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- How It Works (Light/Warm) -->
+    <!-- How It Works (Light/Warm) — Step Cards -->
     <section id="how-it-works" class="section">
       <div class="section-inner">
         <p class="section-label label-dark reveal">How It Works</p>
         <h2 class="hiw-headline reveal">Two hours a month.<br>We handle everything else.</h2>
         <div class="hiw-steps">
-          <div class="hiw-step reveal">
+          <div class="glow-card-light hiw-step reveal">
             <div class="step-number">01</div>
             <h3 class="step-title">Research</h3>
             <p class="step-desc">We map content to the cases you actually want more of.</p>
           </div>
-          <div class="hiw-step reveal">
+          <div class="glow-card-light hiw-step reveal reveal-delay-1">
             <div class="step-number">02</div>
             <h3 class="step-title">Record</h3>
             <p class="step-desc">One batch session a month. We give you the framework. You show up.</p>
           </div>
-          <div class="hiw-step reveal">
+          <div class="glow-card-light hiw-step reveal reveal-delay-2">
             <div class="step-number">03</div>
             <h3 class="step-title">Run</h3>
             <p class="step-desc">Content publishes, leads qualify, consultations book. Automatically.</p>
@@ -732,15 +914,19 @@
       </div>
     </section>
 
-    <!-- Proof (Dark) -->
+    <!-- Proof (Dark) — Quote Card -->
     <section id="proof" class="section">
       <div class="section-inner">
         <p class="section-label label-light reveal">Results</p>
-        <blockquote class="proof-quote reveal">
-          "I'd tried two agencies before. Both delivered content. Neither moved the needle on consultations. By month four with Authority Makers, my intake team was asking what changed."
-        </blockquote>
-        <p class="proof-attribution reveal">Managing Partner, Personal Injury Firm</p>
-        <p class="proof-result reveal">40+ qualified consultations per month by month four. From content alone.</p>
+        <div class="proof-card reveal">
+          <blockquote class="proof-quote">
+            "I'd tried two agencies before. Both delivered content. Neither moved the needle on consultations. By month four with Authority Makers, my intake team was asking what changed."
+          </blockquote>
+          <div class="proof-meta">
+            <p class="proof-attribution">Managing Partner, Personal Injury Firm</p>
+            <span class="proof-result">40+ consultations/mo by month four</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -776,7 +962,6 @@
 
     const videoZoneHeight = videoZone.offsetHeight - window.innerHeight;
 
-    // Prime video for seeking (Safari/iOS)
     function primeVideo() {
       const p = video.play();
       if (p !== undefined) {
@@ -796,7 +981,6 @@
     if (video.readyState >= 1) primeVideo();
     setTimeout(() => { videoReady = true; loader.classList.add('hidden'); }, 4000);
 
-    // Smooth lerp-based video scrubbing
     let targetTime = 0;
     let currentTime = 0;
     const LERP_SPEED = 0.08;
@@ -805,19 +989,16 @@
       const scrollY = window.scrollY;
       const videoFraction = videoZoneHeight > 0 ? Math.min(scrollY / videoZoneHeight, 1) : 0;
 
-      // Video scrubbing
       if (videoReady && video.duration) {
         targetTime = videoFraction * video.duration;
       }
 
-      // Scroll hint
       if (videoFraction > 0.02) {
         scrollHint.classList.add('hidden');
       } else {
         scrollHint.classList.remove('hidden');
       }
 
-      // Video overlay text — appear mid-scroll, fade out near end
       if (videoFraction > 0.25 && videoFraction < 0.85) {
         videoText.classList.add('visible');
         videoText.classList.remove('fade-out');
@@ -831,14 +1012,12 @@
         words.forEach(w => w.classList.remove('show'));
       }
 
-      // Fade out video when leaving video zone
       if (videoFraction >= 0.95) {
         video.classList.add('fade-out');
       } else {
         video.classList.remove('fade-out');
       }
 
-      // Nav: transparent over video, solid over website
       if (scrollY > videoZoneHeight - window.innerHeight * 0.5) {
         nav.classList.add('solid');
       } else {
@@ -846,7 +1025,6 @@
       }
     }, { passive: true });
 
-    // Continuous render loop
     function tick() {
       if (videoReady && video.duration) {
         const diff = targetTime - currentTime;
@@ -870,7 +1048,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
     reveals.forEach(el => observer.observe(el));
 
