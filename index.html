@@ -133,11 +133,11 @@
     const loader = document.getElementById('loader');
     let videoReady = false;
 
-    // ── Prime the video for seeking (required by Safari/iOS) ──
+    // ── Prime video for seeking (Safari/iOS requirement) ──
     function primeVideo() {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
+      const p = video.play();
+      if (p !== undefined) {
+        p.then(() => {
           video.pause();
           video.currentTime = 0;
           videoReady = true;
@@ -151,44 +151,46 @@
 
     video.addEventListener('loadedmetadata', primeVideo);
     if (video.readyState >= 1) primeVideo();
+    setTimeout(() => { videoReady = true; loader.classList.add('hidden'); }, 4000);
 
-    // Fallback
-    setTimeout(() => {
-      videoReady = true;
-      loader.classList.add('hidden');
-    }, 4000);
+    // ── Smooth lerp-based video scrubbing ──
+    // Instead of jumping currentTime on every scroll, we lerp toward
+    // the target time in a continuous rAF loop. This eliminates jitter.
+    let targetTime = 0;
+    let currentTime = 0;
+    const LERP_SPEED = 0.08; // lower = smoother but laggier, higher = snappier
 
-    // ── Scroll handler ──
-    function onScroll() {
+    // Track scroll target
+    window.addEventListener('scroll', () => {
       const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const scrollY = window.scrollY;
-      const scrollFraction = scrollHeight > 0 ? scrollY / scrollHeight : 0;
+      const scrollFraction = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
 
-      // Scrub video
       if (videoReady && video.duration) {
-        video.currentTime = scrollFraction * video.duration;
+        targetTime = scrollFraction * video.duration;
       }
 
-      // Hide scroll hint
+      // Scroll hint
       if (scrollFraction > 0.02) {
         scrollHint.classList.add('hidden');
       } else {
         scrollHint.classList.remove('hidden');
       }
-    }
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          onScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
     }, { passive: true });
 
-    onScroll();
+    // Continuous render loop — smoothly approach target
+    function tick() {
+      if (videoReady && video.duration) {
+        const diff = targetTime - currentTime;
+
+        // Only seek if the difference is meaningful (avoids micro-seeks)
+        if (Math.abs(diff) > 0.01) {
+          currentTime += diff * LERP_SPEED;
+          video.currentTime = currentTime;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   </script>
 </body>
 </html>
