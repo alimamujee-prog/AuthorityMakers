@@ -320,11 +320,12 @@
       background: var(--dark);
       padding: 140px 40px 120px;
       text-align: center;
+      position: relative;
     }
 
     .hero-headline {
       font-family: var(--font-heading);
-      font-size: clamp(56px, 8vw, 100px);
+      font-size: clamp(56px, 9vw, 120px);
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -0.03em;
@@ -1053,19 +1054,18 @@
       }
 
       // "Become Undeniable" grows from tiny/faded to full size/opacity
-      const textProgress = Math.min(videoFraction / 0.85, 1);
-      const eased = textProgress * textProgress * (3 - 2 * textProgress); // smoothstep
+      const eased = videoFraction * videoFraction * (3 - 2 * videoFraction); // smoothstep
       const scale = 0.15 + eased * 0.85;       // 0.15 → 1.0
       const opacity = 0.05 + eased * 0.95;     // 0.05 → 1.0
 
-      if (videoFraction < 0.85) {
-        videoText.style.transform = `scale(${scale})`;
-        videoText.style.opacity = opacity;
+      videoText.style.transform = `scale(${scale})`;
+      videoText.style.opacity = opacity;
+
+      // Once video zone is fully scrolled, hide fixed text (hero headline takes over)
+      if (videoFraction >= 1) {
+        videoText.style.visibility = 'hidden';
       } else {
-        // Fade out after reaching full size
-        const fadeOut = Math.max(1 - (videoFraction - 0.85) / 0.15, 0);
-        videoText.style.transform = 'scale(1)';
-        videoText.style.opacity = fadeOut;
+        videoText.style.visibility = 'visible';
       }
 
       if (videoFraction >= 0.95) {
