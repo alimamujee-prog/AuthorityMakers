@@ -1044,6 +1044,8 @@
       .hero-layout { flex-direction: column; gap: 40px; text-align: center; }
       .hero-text { text-align: center; }
       .hero-sub { margin: 0 auto 48px; }
+      .hero-cta { align-self: center; }
+      .hero-micro { text-align: center; }
       .hero-video { width: 260px; }
 
       #social-proof { padding: 60px 24px; }
@@ -1088,10 +1090,15 @@
     }
 
     @media (max-width: 480px) {
+      .gradient-btn span {
+        padding: 16px 32px;
+        font-size: 15px;
+      }
       .hero-cta, .final-cta-btn {
         display: inline-flex;
         text-align: center;
         width: auto;
+        max-width: 100%;
       }
       .glow-card, .glow-card-light { padding: 28px 20px; }
       .stat-tile { padding: 24px 16px; }
