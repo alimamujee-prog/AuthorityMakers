@@ -226,10 +226,16 @@
       background: none;
       border: none;
       cursor: pointer;
-      padding: 8px;
-      z-index: 110;
+      padding: 12px;
+      z-index: 200;
       flex-direction: column;
       gap: 5px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hamburger:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 4px;
+      border-radius: 4px;
     }
     .hamburger span {
       display: block;
@@ -257,14 +263,14 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 105;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 150;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 32px;
+      gap: 36px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s ease;
@@ -277,21 +283,28 @@
       color: var(--text-light);
       text-decoration: none;
       font-family: var(--font-heading);
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 500;
       letter-spacing: 0.02em;
+      padding: 8px 16px;
       transition: color 0.3s ease, text-shadow 0.3s ease;
     }
-    .mobile-menu a:hover {
+    .mobile-menu a:hover,
+    .mobile-menu a:focus-visible {
       color: var(--gold);
       text-shadow: 0 0 20px rgba(200,164,110,0.3);
     }
+    .mobile-menu a:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
     .mobile-menu-cta {
-      margin-top: 16px;
-      padding: 16px 36px;
+      margin-top: 20px;
+      padding: 18px 40px !important;
       background: var(--midnight);
       border-radius: 50px;
-      font-size: 18px !important;
+      font-size: 20px !important;
       font-weight: 600 !important;
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
       box-shadow: 0 4px 20px rgba(24,94,114,0.3);
@@ -300,6 +313,17 @@
       background: var(--midnight-hover);
       transform: translateY(-2px);
       box-shadow: 0 8px 32px rgba(24,94,114,0.4);
+    }
+
+    /* Global focus-visible for all interactive elements */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .gradient-btn:focus-visible {
+      outline-offset: 6px;
     }
 
     /* ══════════════════════════════════════════
@@ -546,8 +570,8 @@
 
     .hero-micro {
       margin-top: 16px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.35);
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
     }
 
     /* ── SOCIAL PROOF BAR (Light) ── */
@@ -1157,7 +1181,7 @@
         transform: none;
       }
       .compare-header { padding: 28px 24px; }
-      .compare-cell { padding: 18px 24px; font-size: 15px; }
+      .compare-cell { padding: 18px 24px; font-size: 15px; overflow-wrap: break-word; word-break: break-word; }
       .compare-cell-right { font-size: 16px; }
 
       .hiw-steps {
@@ -1185,6 +1209,12 @@
       }
       .glow-card, .glow-card-light { padding: 28px 20px; }
       .stat-tile { padding: 24px 16px; }
+      .nav-brand-name { font-size: 16px; }
+    }
+
+    /* Hide scroll hint on short viewports */
+    @media (max-height: 600px) {
+      #scroll-hint { display: none; }
     }
   </style>
 </head>
@@ -1210,7 +1240,7 @@
       </ul>
       <a href="contact.html" class="gradient-btn nav-cta"><span>Apply to Work With Us</span></a>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <!-- Mobile menu -->
@@ -1508,14 +1538,16 @@
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
       hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       });
     });
