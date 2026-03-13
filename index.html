@@ -398,7 +398,25 @@
     /* ── SOCIAL PROOF BAR (Light) ── */
     #social-proof {
       background: var(--light);
-      padding: 64px 40px;
+      padding: 80px 40px;
+    }
+
+    .social-proof-title {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .social-proof-sub {
+      font-size: 16px;
+      color: var(--text-dark-muted);
+      text-align: center;
+      margin-bottom: 48px;
     }
 
     .proof-stats-grid {
@@ -406,39 +424,83 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 28px;
     }
 
     .stat-tile {
       background: #ffffff;
-      border: 1px solid rgba(0,0,0,0.06);
-      border-radius: 12px;
-      padding: 32px 24px;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 16px;
+      padding: 40px 28px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 1px 3px rgba(0,0,0,0.04),
+        0 4px 12px rgba(0,0,0,0.03);
       transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
                   box-shadow 0.4s ease,
                   border-color 0.4s ease;
     }
+
+    /* Top accent line */
+    .stat-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--midnight), var(--gold));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Subtle background shimmer on hover */
+    .stat-tile::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(24,94,114,0.04) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
     .stat-tile:hover {
-      transform: translateY(-6px);
-      border-color: rgba(24,94,114,0.15);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 0 40px rgba(24,94,114,0.06);
+      transform: translateY(-8px);
+      border-color: rgba(24,94,114,0.12);
+      box-shadow:
+        0 8px 24px rgba(0,0,0,0.06),
+        0 20px 48px rgba(0,0,0,0.08),
+        0 0 0 1px rgba(24,94,114,0.06);
+    }
+    .stat-tile:hover::before {
+      opacity: 1;
+    }
+    .stat-tile:hover::after {
+      opacity: 1;
     }
 
     .stat-number {
       font-family: var(--font-heading);
-      font-size: clamp(32px, 4vw, 44px);
+      font-size: clamp(36px, 4.5vw, 52px);
       font-weight: 700;
       color: var(--midnight);
       line-height: 1.1;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .stat-label {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
       color: var(--text-dark-muted);
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
     }
 
     /* ── COMPARISON GRID (Dark) ── */
@@ -902,11 +964,14 @@
       .hero-sub { margin: 0 auto 48px; }
       .hero-video { width: 260px; }
 
-      #social-proof { padding: 48px 24px; }
+      #social-proof { padding: 60px 24px; }
+      .social-proof-title { margin-bottom: 8px; }
+      .social-proof-sub { margin-bottom: 32px; }
       .proof-stats-grid {
         grid-template-columns: 1fr;
         gap: 16px;
       }
+      .stat-tile { padding: 32px 20px; }
 
       .compare-wrapper {
         flex-direction: column;
@@ -1008,6 +1073,8 @@
 
     <!-- Social Proof Bar (Light) — KPI Tiles -->
     <section id="social-proof">
+      <h2 class="social-proof-title reveal">The numbers speak for themselves</h2>
+      <p class="social-proof-sub reveal">Real results from real firms we work with.</p>
       <div class="proof-stats-grid">
         <div class="stat-tile reveal">
           <div class="stat-number">30+</div>
@@ -1019,7 +1086,7 @@
         </div>
         <div class="stat-tile reveal reveal-delay-2">
           <div class="stat-number">3,200+</div>
-          <div class="stat-label">Qualified Consultations</div>
+          <div class="stat-label">Qualified Meetings</div>
         </div>
       </div>
     </section>
