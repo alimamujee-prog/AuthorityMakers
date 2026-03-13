@@ -41,7 +41,7 @@
     #loader {
       position: fixed;
       inset: 0;
-      z-index: 100;
+      z-index: 200;
       background: var(--dark);
       display: flex;
       align-items: center;
@@ -70,7 +70,68 @@
       100% { transform: translateX(350%); }
     }
 
-    /* ── Video Hero Zone ── */
+    /* ══════════════════════════════════════════
+       PERSISTENT NAV — always visible
+    ══════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    #nav.solid {
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: rgba(255,255,255,0.06);
+    }
+
+    .nav-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--text-light); }
+
+    .nav-cta {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .nav-cta:hover { background: var(--gold-hover); }
+
+    /* ══════════════════════════════════════════
+       VIDEO HERO ZONE
+    ══════════════════════════════════════════ */
     #video-zone {
       height: 500vh;
       position: relative;
@@ -87,18 +148,6 @@
       transition: opacity 0.6s ease;
     }
     #scrollVideo.fade-out { opacity: 0; }
-
-    /* ── Logo (during video) ── */
-    #video-logo {
-      position: fixed;
-      top: 40px;
-      right: 40px;
-      z-index: 10;
-      height: 48px;
-      width: auto;
-      transition: opacity 0.4s ease;
-    }
-    #video-logo.hidden { opacity: 0; pointer-events: none; }
 
     /* ── Scroll indicator ── */
     #scroll-hint {
@@ -136,63 +185,11 @@
     /* ══════════════════════════════════════════
        WEBSITE SECTIONS
     ══════════════════════════════════════════ */
-
     #website {
       position: relative;
       z-index: 2;
     }
 
-    /* ── Sticky Nav ── */
-    #nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(10,10,10,0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 0 40px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      height: 36px;
-      width: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--text-light); }
-
-    .nav-cta {
-      display: inline-block;
-      padding: 10px 24px;
-      background: var(--gold);
-      color: var(--dark);
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-    .nav-cta:hover { background: var(--gold-hover); }
-
-    /* ── Section Layout ── */
     .section {
       padding: 120px 40px;
     }
@@ -318,7 +315,7 @@
       background: var(--gold);
     }
 
-    /* ── HOW IT WORKS (Light) ── */
+    /* ── HOW IT WORKS (Light/Warm) ── */
     #how-it-works {
       background: var(--light-warm);
     }
@@ -490,14 +487,13 @@
        RESPONSIVE
     ══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      #video-logo { top: 24px; right: 24px; height: 36px; }
-
       #nav {
         padding: 0 20px;
         height: 64px;
       }
       .nav-links { display: none; }
-      .nav-logo { height: 28px; }
+      .nav-logo { height: 30px; }
+      .nav-cta { padding: 8px 18px; font-size: 12px; }
 
       .section { padding: 80px 24px; }
 
@@ -534,14 +530,25 @@
   </div>
 
   <!-- ═══════════════════════════════════════
+       PERSISTENT NAV — visible throughout
+  ═══════════════════════════════════════ -->
+  <nav id="nav">
+    <img class="nav-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers">
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#proof">Results</a></li>
+      <li><a href="#problem">Who It's For</a></li>
+    </ul>
+    <a href="#final-cta" class="nav-cta">Apply to Work With Us</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
        VIDEO SCROLL ZONE
   ═══════════════════════════════════════ -->
   <div id="video-zone">
     <video id="scrollVideo" muted playsinline preload="auto">
       <source src="Authority Makers Animation Video.mp4" type="video/mp4">
     </video>
-
-    <img id="video-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers">
 
     <div id="scroll-hint">
       <span>Scroll</span>
@@ -553,17 +560,6 @@
        WEBSITE
   ═══════════════════════════════════════ -->
   <div id="website">
-
-    <!-- Nav (Dark) -->
-    <nav id="nav">
-      <img class="nav-logo" src="Authority Creators LogoWhite.png" alt="Authority Makers">
-      <ul class="nav-links">
-        <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="#proof">Results</a></li>
-        <li><a href="#problem">Who It's For</a></li>
-      </ul>
-      <a href="#final-cta" class="nav-cta">Apply to Work With Us</a>
-    </nav>
 
     <!-- Hero (Dark) -->
     <section id="hero">
@@ -601,7 +597,7 @@
       </div>
     </section>
 
-    <!-- How It Works (Light) -->
+    <!-- How It Works (Light/Warm) -->
     <section id="how-it-works" class="section">
       <div class="section-inner">
         <p class="section-label label-dark reveal">How It Works</p>
@@ -662,11 +658,10 @@
     const video = document.getElementById('scrollVideo');
     const scrollHint = document.getElementById('scroll-hint');
     const loader = document.getElementById('loader');
-    const videoLogo = document.getElementById('video-logo');
+    const nav = document.getElementById('nav');
     const videoZone = document.getElementById('video-zone');
     let videoReady = false;
 
-    // Height of video zone for scroll calculations
     const videoZoneHeight = videoZone.offsetHeight - window.innerHeight;
 
     // Prime video for seeking (Safari/iOS)
@@ -698,25 +693,30 @@
       const scrollY = window.scrollY;
       const videoFraction = videoZoneHeight > 0 ? Math.min(scrollY / videoZoneHeight, 1) : 0;
 
-      // Video scrubbing (only within video zone)
+      // Video scrubbing
       if (videoReady && video.duration) {
         targetTime = videoFraction * video.duration;
       }
 
-      // Scroll hint — hide after slight scroll
+      // Scroll hint
       if (videoFraction > 0.02) {
         scrollHint.classList.add('hidden');
       } else {
         scrollHint.classList.remove('hidden');
       }
 
-      // Fade out video & logo when leaving video zone
+      // Fade out video when leaving video zone
       if (videoFraction >= 0.95) {
         video.classList.add('fade-out');
-        videoLogo.classList.add('hidden');
       } else {
         video.classList.remove('fade-out');
-        videoLogo.classList.remove('hidden');
+      }
+
+      // Nav: transparent over video, solid over website
+      if (scrollY > videoZoneHeight - window.innerHeight * 0.5) {
+        nav.classList.add('solid');
+      } else {
+        nav.classList.remove('solid');
       }
     }, { passive: true });
 
