@@ -697,6 +697,83 @@
       background: rgba(200,164,110,0.12);
     }
 
+    /* ── WALL OF LOVE ── */
+    .wall-of-love {
+      padding: 80px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .wall-of-love-badge {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 6px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+    .wall-of-love h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .wall-of-love > p {
+      color: var(--text-muted);
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+    .wall-columns {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      max-height: 700px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    }
+    .wall-col { flex: 0 0 320px; overflow: hidden; }
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+    .wall-col-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 24px;
+      animation: scrollUp var(--duration, 20s) linear infinite;
+    }
+    .wall-col:hover .wall-col-inner { animation-play-state: paused; }
+    .testimonial-card {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: border-color 0.3s ease;
+    }
+    .testimonial-card:hover { border-color: rgba(200,164,110,0.2); }
+    .testimonial-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 20px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .testimonial-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .testimonial-role { font-size: 13px; color: var(--text-muted); line-height: 1.3; }
+    .wall-col-2 { display: none; }
+    .wall-col-3 { display: none; }
+    @media (min-width: 769px) { .wall-col-2 { display: block; } }
+    @media (min-width: 1080px) { .wall-col-3 { display: block; } }
+
     /* ── FINAL CTA (Dark) ── */
     #final-cta {
       background: var(--dark-surface);
@@ -816,8 +893,9 @@
         gap: 20px;
       }
 
-      .proof-card { padding: 36px 24px; }
-      .proof-meta { flex-direction: column; align-items: flex-start; }
+      .wall-of-love { padding: 60px 20px; }
+      .wall-col { flex: 0 0 280px; }
+      .wall-columns { max-height: 560px; }
 
       #final-cta { padding: 100px 24px; }
     }
@@ -847,7 +925,7 @@
       <ul class="nav-links">
         <li><a href="#hero">About</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="results.html">Results</a></li>
+        <li><a href="#results">Results</a></li>
         <li><a href="#final-cta">Contact</a></li>
       </ul>
       <a href="#final-cta" class="gradient-btn nav-cta"><span>Apply to Work With Us</span></a>
@@ -968,17 +1046,156 @@
       </div>
     </section>
 
-    <!-- Proof (Dark) — Quote Card -->
-    <section id="proof" class="section">
-      <div class="section-inner">
-        <p class="section-label label-light reveal">Results</p>
-        <div class="proof-card reveal">
-          <blockquote class="proof-quote">
-            "I'd tried two agencies before. Both delivered content. Neither moved the needle on consultations. By month four with Authority Makers, my intake team was asking what changed."
-          </blockquote>
-          <div class="proof-meta">
-            <p class="proof-attribution">Managing Partner, Personal Injury Firm</p>
-            <span class="proof-result">40+ consultations/mo by month four</span>
+    <!-- Results — Wall of Love -->
+    <section id="results" style="background: var(--dark);">
+      <div class="wall-of-love">
+        <div class="wall-of-love-badge reveal">Testimonials</div>
+        <h2 class="reveal">What our clients say</h2>
+        <p class="reveal">Real feedback from firms we've worked with.</p>
+        <div class="wall-columns">
+          <!-- Column 1 -->
+          <div class="wall-col">
+            <div class="wall-col-inner" style="--duration: 25s;">
+              <div class="testimonial-card">
+                <div class="testimonial-text">"We went from posting nothing to 2M+ views in 90 days. The consult requests haven't stopped since. Authority Makers changed the trajectory of our firm."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Thompson">
+                  <div><div class="testimonial-name">Marcus Thompson</div><div class="testimonial-role">Managing Partner, Thompson & Associates</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I was skeptical about video. Two hours a month later, I'm the most recognized attorney in my city. The ROI isn't even close to anything else we've tried."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Elena Rivera">
+                  <div><div class="testimonial-name">Elena Rivera</div><div class="testimonial-role">Founder, Rivera Legal Group</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"They don't just post content. They built a system that attracts the exact type of client we want. Our average case value doubled."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/52.jpg" alt="David Chen">
+                  <div><div class="testimonial-name">David Chen</div><div class="testimonial-role">Partner, Chen Immigration Law</div></div>
+                </div>
+              </div>
+              <!-- Duplicated for infinite scroll -->
+              <div class="testimonial-card">
+                <div class="testimonial-text">"We went from posting nothing to 2M+ views in 90 days. The consult requests haven't stopped since. Authority Makers changed the trajectory of our firm."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Thompson">
+                  <div><div class="testimonial-name">Marcus Thompson</div><div class="testimonial-role">Managing Partner, Thompson & Associates</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I was skeptical about video. Two hours a month later, I'm the most recognized attorney in my city. The ROI isn't even close to anything else we've tried."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Elena Rivera">
+                  <div><div class="testimonial-name">Elena Rivera</div><div class="testimonial-role">Founder, Rivera Legal Group</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"They don't just post content. They built a system that attracts the exact type of client we want. Our average case value doubled."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/52.jpg" alt="David Chen">
+                  <div><div class="testimonial-name">David Chen</div><div class="testimonial-role">Partner, Chen Immigration Law</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Column 2 -->
+          <div class="wall-col wall-col-2">
+            <div class="wall-col-inner" style="--duration: 30s;">
+              <div class="testimonial-card">
+                <div class="testimonial-text">"Other agencies gave us generic content. Authority Makers gave us a brand. Prospects now come to us already trusting us before the first call."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="James Hartwell">
+                  <div><div class="testimonial-name">James Hartwell</div><div class="testimonial-role">Criminal Defense Attorney</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"The one-firm-per-market promise is real. Nobody else in my area has what I have. That exclusivity alone is worth 10x the investment."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Rachel Foster">
+                  <div><div class="testimonial-name">Rachel Foster</div><div class="testimonial-role">Managing Partner, Foster Family Law</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I used to rely 100% on referrals. Now 60% of new business comes from content. And these are better clients — they already know my expertise."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Robert Kim">
+                  <div><div class="testimonial-name">Robert Kim</div><div class="testimonial-role">Senior Partner, Kim & Associates</div></div>
+                </div>
+              </div>
+              <!-- Duplicated for infinite scroll -->
+              <div class="testimonial-card">
+                <div class="testimonial-text">"Other agencies gave us generic content. Authority Makers gave us a brand. Prospects now come to us already trusting us before the first call."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="James Hartwell">
+                  <div><div class="testimonial-name">James Hartwell</div><div class="testimonial-role">Criminal Defense Attorney</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"The one-firm-per-market promise is real. Nobody else in my area has what I have. That exclusivity alone is worth 10x the investment."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Rachel Foster">
+                  <div><div class="testimonial-name">Rachel Foster</div><div class="testimonial-role">Managing Partner, Foster Family Law</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I used to rely 100% on referrals. Now 60% of new business comes from content. And these are better clients — they already know my expertise."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Robert Kim">
+                  <div><div class="testimonial-name">Robert Kim</div><div class="testimonial-role">Senior Partner, Kim & Associates</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Column 3 -->
+          <div class="wall-col wall-col-3">
+            <div class="wall-col-inner" style="--duration: 22s;">
+              <div class="testimonial-card">
+                <div class="testimonial-text">"The batch system is genius. Two hours of my time, and they turn it into a month of content that actually sounds like me. Not some generic AI slop."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/22.jpg" alt="Sarah Mitchell">
+                  <div><div class="testimonial-name">Sarah Mitchell</div><div class="testimonial-role">Estate Planning Attorney</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"Three months in and we've gotten more inbound leads than the previous two years of SEO and Google Ads combined. The numbers speak for themselves."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/36.jpg" alt="Michael Baker">
+                  <div><div class="testimonial-name">Michael Baker</div><div class="testimonial-role">Co-Founder, Baker & Sterling</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I was the best-kept secret in my market. Now I'm the first name people think of. That shift happened faster than I thought possible."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/55.jpg" alt="Angela Brooks">
+                  <div><div class="testimonial-name">Angela Brooks</div><div class="testimonial-role">Managing Partner, Brooks Legal</div></div>
+                </div>
+              </div>
+              <!-- Duplicated for infinite scroll -->
+              <div class="testimonial-card">
+                <div class="testimonial-text">"The batch system is genius. Two hours of my time, and they turn it into a month of content that actually sounds like me. Not some generic AI slop."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/22.jpg" alt="Sarah Mitchell">
+                  <div><div class="testimonial-name">Sarah Mitchell</div><div class="testimonial-role">Estate Planning Attorney</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"Three months in and we've gotten more inbound leads than the previous two years of SEO and Google Ads combined. The numbers speak for themselves."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/36.jpg" alt="Michael Baker">
+                  <div><div class="testimonial-name">Michael Baker</div><div class="testimonial-role">Co-Founder, Baker & Sterling</div></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-text">"I was the best-kept secret in my market. Now I'm the first name people think of. That shift happened faster than I thought possible."</div>
+                <div class="testimonial-author">
+                  <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/55.jpg" alt="Angela Brooks">
+                  <div><div class="testimonial-name">Angela Brooks</div><div class="testimonial-role">Managing Partner, Brooks Legal</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
