@@ -404,12 +404,35 @@
 
     .hero-headline {
       font-family: var(--font-heading);
-      font-size: clamp(48px, 7vw, 100px);
+      font-size: clamp(40px, 5.5vw, 72px);
       font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
       color: var(--text-light);
       margin-bottom: 28px;
+    }
+
+    .hero-highlight {
+      position: relative;
+      display: inline;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(200,164,110,0.3), 0 0 60px rgba(200,164,110,0.1);
+    }
+    .hero-highlight::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--midnight));
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(200,164,110,0.4), 0 0 24px rgba(200,164,110,0.15);
+      animation: highlightPulse 3s ease-in-out infinite;
+    }
+    @keyframes highlightPulse {
+      0%, 100% { opacity: 0.8; box-shadow: 0 0 12px rgba(200,164,110,0.4), 0 0 24px rgba(200,164,110,0.15); }
+      50% { opacity: 1; box-shadow: 0 0 20px rgba(200,164,110,0.6), 0 0 40px rgba(200,164,110,0.25); }
     }
 
     .hero-sub {
@@ -1100,8 +1123,8 @@
     <section id="hero">
       <div class="hero-layout">
         <div class="hero-text">
-          <h1 class="hero-headline reveal">Become Undeniable.</h1>
-          <p class="hero-sub reveal">We turn your expertise into a video content engine that attracts better clients, filters bad ones, and fills your calendar.</p>
+          <h1 class="hero-headline reveal">Video Content That Books You <span class="hero-highlight">Qualified Meetings.</span></h1>
+          <p class="hero-sub reveal">Done-for-you video systems for expert-led businesses.</p>
           <a href="contact.html" class="gradient-btn hero-cta reveal"><span>Apply to Work With Us</span></a>
           <p class="hero-micro reveal">We take on a limited number of new clients each month.</p>
         </div>
