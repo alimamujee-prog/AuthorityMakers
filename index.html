@@ -446,17 +446,51 @@
       background: var(--dark-surface);
     }
 
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
+    /* ── COMPARISON: Two-column layout with 3D right side ── */
+    .compare-wrapper {
+      display: flex;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .compare-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Left column — flat, recessed */
+    .compare-col-left {
+      flex: 1;
+      background: rgba(15,15,18,0.95);
+      border-radius: 16px 0 0 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-right: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Right column — elevated 3D card */
+    .compare-col-right {
+      flex: 1;
+      background: var(--light-warm);
       border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      z-index: 2;
+      transform: translateY(-8px) scale(1.02);
       box-shadow:
-        0 4px 24px rgba(0,0,0,0.4),
-        0 20px 60px rgba(0,0,0,0.3),
-        0 0 80px rgba(24,94,114,0.06);
+        0 8px 32px rgba(0,0,0,0.25),
+        0 24px 64px rgba(0,0,0,0.2),
+        0 2px 8px rgba(0,0,0,0.15),
+        -4px 0 20px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+    }
+    .compare-col-right:hover {
+      transform: translateY(-12px) scale(1.025);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.3),
+        0 32px 80px rgba(0,0,0,0.22),
+        0 2px 8px rgba(0,0,0,0.15),
+        -6px 0 28px rgba(0,0,0,0.12);
     }
 
     /* Column headers */
@@ -464,78 +498,55 @@
       padding: 36px 40px;
       font-family: var(--font-heading);
       font-weight: 600;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .compare-header-left {
-      background: rgba(15,15,18,0.95);
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.35);
       font-size: 18px;
       letter-spacing: 0.02em;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .compare-header-right {
-      background: var(--light-warm);
-      border-left: none;
-      border-bottom-color: rgba(0,0,0,0.08);
       color: #1a1a1a;
       font-size: 26px;
-      text-shadow: none;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       position: relative;
     }
-    .compare-header-right::after {
-      display: none;
-    }
 
-    /* Row cells */
-    .compare-row {
-      display: contents;
-    }
-
+    /* Cells */
     .compare-cell {
       padding: 26px 40px;
       font-size: 16px;
       line-height: 1.5;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
       display: flex;
       align-items: center;
       gap: 16px;
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 0.3s ease;
     }
 
     .compare-cell-left {
-      background: rgba(15,15,18,0.9);
       color: rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       text-decoration: line-through;
       text-decoration-color: rgba(220,53,69,0.3);
       text-decoration-thickness: 1px;
     }
+    .compare-cell-left:hover {
+      background: rgba(220,53,69,0.03);
+    }
+    .compare-cell-left.compare-cell-last {
+      border-bottom: none;
+    }
+
     .compare-cell-right {
-      background: var(--light-warm);
-      border-left: none;
-      border-bottom-color: rgba(0,0,0,0.08);
       color: #1a1a1a;
       font-weight: 600;
       font-size: 19px;
-      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
     }
-
-    /* Subtle glow line on the right column */
-    .compare-cell-right::before {
-      display: none;
+    .compare-cell-right:hover {
+      background: rgba(0,0,0,0.03);
     }
-
-    /* Row hover */
-    .compare-row:hover .compare-cell-left {
-      background: rgba(220,53,69,0.03);
-    }
-    .compare-row:hover .compare-cell-right {
-      background: #e8e3da;
-    }
-    .compare-row:hover .compare-cell-right::before {
-      opacity: 1;
-    }
-
-    /* Last row no border */
-    .compare-row:last-child .compare-cell {
+    .compare-cell-right.compare-cell-last {
       border-bottom: none;
     }
 
@@ -552,8 +563,7 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 700;
-      color: rgba(220,53,69,0.6);
-      box-shadow: 0 0 12px rgba(220,53,69,0.08);
+      color: rgba(220,53,69,0.5);
     }
 
     .icon-check {
@@ -569,15 +579,7 @@
       font-size: 13px;
       font-weight: 700;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(34,134,58,0.3);
-      transition: all 0.35s ease;
-    }
-    .compare-row:hover .icon-check {
-      box-shadow: 0 2px 12px rgba(34,134,58,0.4);
-      background: #1d7a33;
-    }
-    .compare-row:hover .icon-x {
-      box-shadow: 0 0 16px rgba(220,53,69,0.15);
+      box-shadow: 0 2px 8px rgba(34,134,58,0.25);
     }
 
     /* ── HOW IT WORKS (Light/Warm) ── */
@@ -906,17 +908,25 @@
         gap: 16px;
       }
 
-      .compare-grid {
-        grid-template-columns: 1fr;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 12px 40px rgba(0,0,0,0.2);
+      .compare-wrapper {
+        flex-direction: column;
+        gap: 24px;
       }
-      .compare-header-right { border-left: none; border-top: none; }
-      .compare-cell-right { border-left: none; }
-      .compare-cell-right::before { display: none; }
-      .compare-row { display: flex; flex-direction: column; }
+      .compare-col-left {
+        border-radius: 16px;
+        border-right: 1px solid rgba(255,255,255,0.06);
+      }
+      .compare-col-right {
+        transform: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 12px 40px rgba(0,0,0,0.15);
+      }
+      .compare-col-right:hover {
+        transform: none;
+      }
+      .compare-header { padding: 28px 24px; }
       .compare-cell { padding: 18px 24px; font-size: 15px; }
-      .compare-cell-right { font-size: 15px; }
+      .compare-cell-right { font-size: 16px; }
 
       .hiw-steps {
         grid-template-columns: 1fr;
@@ -1018,34 +1028,24 @@
     <section id="compare" class="section">
       <div class="section-inner">
         <p class="section-label label-light reveal">Why Us</p>
-        <div class="compare-grid reveal">
-          <!-- Headers -->
-          <div class="compare-header compare-header-left">Other Video Agencies</div>
-          <div class="compare-header compare-header-right">Authority Makers</div>
-          <!-- Row 1 -->
-          <div class="compare-row">
+        <div class="compare-wrapper reveal">
+          <!-- Left column (flat, recessed) -->
+          <div class="compare-col compare-col-left">
+            <div class="compare-header compare-header-left">Other Video Agencies</div>
             <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Optimized for views</div>
-            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Optimized for revenue</div>
-          </div>
-          <!-- Row 2 -->
-          <div class="compare-row">
             <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Deliver content</div>
-            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Deliver a client acquisition system</div>
-          </div>
-          <!-- Row 3 -->
-          <div class="compare-row">
             <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Measure success in likes and followers</div>
-            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Measure success in qualified meetings</div>
-          </div>
-          <!-- Row 4 -->
-          <div class="compare-row">
             <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Generic content that could belong to any brand</div>
-            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Content mapped to your client needs</div>
+            <div class="compare-cell compare-cell-left compare-cell-last"><span class="icon-x">&#10005;</span> You manage the strategy</div>
           </div>
-          <!-- Row 5 -->
-          <div class="compare-row">
-            <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> You manage the strategy</div>
-            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> We run the entire engine</div>
+          <!-- Right column (elevated 3D card) -->
+          <div class="compare-col compare-col-right">
+            <div class="compare-header compare-header-right">Authority Makers</div>
+            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Optimized for revenue</div>
+            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Deliver a client acquisition system</div>
+            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Measure success in qualified meetings</div>
+            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Content mapped to your client needs</div>
+            <div class="compare-cell compare-cell-right compare-cell-last"><span class="icon-check">&#10003;</span> We run the entire engine</div>
           </div>
         </div>
       </div>
