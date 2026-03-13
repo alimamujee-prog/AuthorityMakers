@@ -313,79 +313,107 @@
   </div>
 
   <script>
-    // ── Loader ──
     const video = document.getElementById('scrollVideo');
+    const textBlocks = document.querySelectorAll('.text-block');
+    const scrollHint = document.getElementById('scroll-hint');
+    const loader = document.getElementById('loader');
+    let videoReady = false;
 
-    video.addEventListener('canplaythrough', () => {
-      document.getElementById('loader').classList.add('hidden');
-    });
-    // Fallback
+    // ── Prime the video for seeking (required by Safari/iOS) ──
+    function primeVideo() {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          video.pause();
+          video.currentTime = 0;
+          videoReady = true;
+          loader.classList.add('hidden');
+        }).catch(() => {
+          // Autoplay blocked — video still seekable on most browsers
+          videoReady = true;
+          loader.classList.add('hidden');
+        });
+      }
+    }
+
+    // Try to prime once metadata is ready
+    video.addEventListener('loadedmetadata', primeVideo);
+
+    // If metadata already loaded (cached), prime immediately
+    if (video.readyState >= 1) {
+      primeVideo();
+    }
+
+    // Fallback: hide loader and enable scrolling regardless
     setTimeout(() => {
-      document.getElementById('loader').classList.add('hidden');
+      videoReady = true;
+      loader.classList.add('hidden');
     }, 4000);
 
-    // ── Scroll-to-video mapping ──
-    video.addEventListener('loadedmetadata', () => {
+    // ── Scroll handler ──
+    function onScroll() {
       const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const textBlocks = document.querySelectorAll('.text-block');
-      const scrollHint = document.getElementById('scroll-hint');
+      const scrollY = window.scrollY;
+      const scrollFraction = scrollHeight > 0 ? scrollY / scrollHeight : 0;
 
-      let ticking = false;
+      // Scrub video
+      if (videoReady && video.duration) {
+        video.currentTime = scrollFraction * video.duration;
+      }
 
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            const scrollY = window.scrollY;
-            const scrollFraction = scrollY / scrollHeight;
+      // Hide scroll hint
+      if (scrollFraction > 0.02) {
+        scrollHint.classList.add('hidden');
+      } else {
+        scrollHint.classList.remove('hidden');
+      }
 
-            // Scrub video
-            video.currentTime = scrollFraction * video.duration;
+      // Animate text blocks
+      textBlocks.forEach(block => {
+        const start = parseFloat(block.dataset.start);
+        const end = parseFloat(block.dataset.end);
 
-            // Hide scroll hint after first scroll
-            if (scrollFraction > 0.02) {
-              scrollHint.classList.add('hidden');
-            } else {
-              scrollHint.classList.remove('hidden');
-            }
+        if (scrollFraction >= start && scrollFraction <= end) {
+          const progress = (scrollFraction - start) / (end - start);
 
-            // Animate text blocks
-            textBlocks.forEach(block => {
-              const start = parseFloat(block.dataset.start);
-              const end = parseFloat(block.dataset.end);
+          // Fade in first 30%, full middle, fade out last 30%
+          let opacity;
+          if (progress < 0.3) {
+            opacity = progress / 0.3;
+          } else if (progress > 0.7) {
+            opacity = (1 - progress) / 0.3;
+          } else {
+            opacity = 1;
+          }
 
-              if (scrollFraction >= start && scrollFraction <= end) {
-                const progress = (scrollFraction - start) / (end - start);
+          const slideUp = progress < 0.3 ? (1 - progress / 0.3) * 30 : 0;
 
-                // Fade in first 30%, full middle, fade out last 30%
-                let opacity;
-                if (progress < 0.3) {
-                  opacity = progress / 0.3;
-                } else if (progress > 0.7) {
-                  opacity = (1 - progress) / 0.3;
-                } else {
-                  opacity = 1;
-                }
-
-                // Slide up on enter
-                const slideUp = progress < 0.3 ? (1 - progress / 0.3) * 30 : 0;
-
-                block.style.opacity = Math.max(0, Math.min(1, opacity));
-                if (!block.classList.contains('center')) {
-                  block.style.transform = `translateY(${slideUp}px)`;
-                } else {
-                  block.style.transform = `translateX(-50%) translateY(${slideUp}px)`;
-                }
-              } else {
-                block.style.opacity = 0;
-              }
-            });
-
-            ticking = false;
-          });
-          ticking = true;
+          block.style.opacity = Math.max(0, Math.min(1, opacity));
+          if (block.classList.contains('center')) {
+            block.style.transform = `translateX(-50%) translateY(${slideUp}px)`;
+          } else {
+            block.style.transform = `translateY(${slideUp}px)`;
+          }
+        } else {
+          block.style.opacity = 0;
         }
-      }, { passive: true });
-    });
+      });
+    }
+
+    // rAF-wrapped scroll listener
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          onScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Run once on load in case page loads mid-scroll
+    onScroll();
   </script>
 </body>
 </html>
