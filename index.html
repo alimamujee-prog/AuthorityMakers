@@ -193,8 +193,17 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
 
+    /* ── Video Scroll Zone ── */
+    #video-scroll-zone {
+      position: relative;
+      z-index: 1;
+      height: 400vh;
+    }
+
     /* ── Hero Section (Dark) ── */
     #hero {
+      position: sticky;
+      top: 0;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -725,6 +734,8 @@
     </button>
   </nav>
 
+  <!-- Video Scroll Zone -->
+  <div id="video-scroll-zone">
   <!-- 1. Hero Section (Dark) -->
   <section id="hero">
     <div class="section-inner">
@@ -769,6 +780,8 @@
       </div>
     </div>
   </section>
+
+  </div><!-- /video-scroll-zone -->
 
   <!-- 2. Social Proof Bar (Light) -->
   <section id="social-proof">
@@ -958,6 +971,7 @@
     // ── Scroll-driven video ──
     const video = document.getElementById('scroll-video');
     const fallback = document.getElementById('video-fallback');
+    const scrollZone = document.getElementById('video-scroll-zone');
     let videoReady = false;
 
     video.addEventListener('loadedmetadata', () => {
@@ -967,15 +981,37 @@
     });
 
     video.addEventListener('error', () => {
-      // No video file — keep the gradient fallback visible
       fallback.style.opacity = '1';
     });
 
     function updateVideo() {
       if (!videoReady) return;
-      const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const scrollFraction = window.scrollY / scrollHeight;
-      video.currentTime = scrollFraction * video.duration;
+      const zoneTop = scrollZone.offsetTop;
+      const zoneHeight = scrollZone.offsetHeight - window.innerHeight;
+      const scrollY = window.scrollY;
+
+      if (scrollY <= zoneTop + zoneHeight) {
+        // Within the scroll zone — scrub the video
+        const progress = Math.max(0, Math.min(1, (scrollY - zoneTop) / zoneHeight));
+        video.currentTime = progress * video.duration;
+        video.style.opacity = 1;
+      } else {
+        // Past the scroll zone — fade video out
+        const fadeDistance = window.innerHeight * 0.5;
+        const pastZone = scrollY - (zoneTop + zoneHeight);
+        const fadeOpacity = Math.max(0, 1 - pastZone / fadeDistance);
+        video.style.opacity = fadeOpacity;
+        video.currentTime = video.duration;
+      }
+    }
+
+    // ── Hero fade on scroll ──
+    const heroContent = document.querySelector('.hero-content');
+    function updateHeroFade() {
+      const zoneHeight = scrollZone.offsetHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, window.scrollY / (zoneHeight * 0.5)));
+      heroContent.style.opacity = 1 - progress;
+      heroContent.style.transform = `translateY(${-progress * 60}px)`;
     }
 
     // ── Scroll reveal ──
@@ -1028,6 +1064,7 @@
         requestAnimationFrame(() => {
           updateNav();
           updateVideo();
+          updateHeroFade();
           ticking = false;
         });
         ticking = true;
