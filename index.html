@@ -5,17 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Authority Makers</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       height: 500vh;
       background: #0a0a0a;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: #ffffff;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -26,19 +20,11 @@
       z-index: 100;
       background: #0a0a0a;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 24px;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
     #loader.hidden { opacity: 0; visibility: hidden; }
-    #loader .brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
     .loader-bar {
       width: 120px;
       height: 2px;
@@ -71,128 +57,14 @@
       z-index: 0;
     }
 
-    /* ── Dark overlay on video for text legibility ── */
-    #video-overlay {
+    /* ── Logo ── */
+    #logo {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1;
-      background: rgba(0, 0, 0, 0.35);
-      pointer-events: none;
-    }
-
-    /* ── Nav ── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 40px;
+      right: 40px;
       z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px;
-    }
-    .nav-brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-    .nav-cta {
-      background: #c8a46e;
-      color: #0a0a0a;
-      padding: 12px 28px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
-      text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-    .nav-cta:hover {
-      background: #d4b57e;
-      transform: translateY(-1px);
-    }
-
-    /* ── Text Blocks ── */
-    .text-block {
-      position: fixed;
-      z-index: 2;
-      opacity: 0;
-      will-change: transform, opacity;
-      transition: none;
-      max-width: 560px;
-      padding: 0 8%;
-    }
-
-    /* Alternating positions: left, right, center */
-    .text-block.left {
-      left: 0;
-      bottom: 18%;
-      text-align: left;
-    }
-    .text-block.right {
-      right: 0;
-      bottom: 18%;
-      text-align: right;
-    }
-    .text-block.center {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 18%;
-      text-align: center;
-      max-width: 700px;
-    }
-
-    .text-block .eyebrow {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: #c8a46e;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .text-block h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 4.5vw, 56px);
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .text-block h2 em {
-      font-style: italic;
-      color: #c8a46e;
-    }
-    .text-block p {
-      font-size: 17px;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.75);
-    }
-    .text-block .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #c8a46e;
-      color: #0a0a0a;
-      padding: 16px 32px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      margin-top: 28px;
-      transition: background 0.3s ease;
-    }
-    .text-block .cta-btn:hover { background: #d4b57e; }
-    .text-block .cta-btn svg { transition: transform 0.3s ease; }
-    .text-block .cta-btn:hover svg { transform: translateX(4px); }
-
-    .text-block .sub-note {
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      margin-top: 12px;
+      height: 48px;
+      width: auto;
     }
 
     /* ── Scroll indicator ── */
@@ -211,6 +83,7 @@
     }
     #scroll-hint.hidden { opacity: 0; }
     #scroll-hint span {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.15em;
@@ -229,15 +102,7 @@
 
     /* ── Mobile ── */
     @media (max-width: 768px) {
-      nav { padding: 24px; }
-      .nav-cta { padding: 10px 20px; font-size: 13px; }
-      .text-block { padding: 0 6%; max-width: 100%; }
-      .text-block.center { max-width: 100%; }
-      .text-block h2 { font-size: clamp(28px, 7vw, 42px); }
-      .text-block p { font-size: 15px; }
-      .text-block.left,
-      .text-block.right,
-      .text-block.center { bottom: 12%; }
+      #logo { top: 24px; right: 24px; height: 36px; }
     }
   </style>
 </head>
@@ -245,7 +110,6 @@
 
   <!-- Loader -->
   <div id="loader">
-    <span class="brand">Authority Makers</span>
     <div class="loader-bar"></div>
   </div>
 
@@ -254,14 +118,8 @@
     <source src="AuthorityMakersHomepageAnimation.mp4" type="video/mp4">
   </video>
 
-  <!-- Overlay -->
-  <div id="video-overlay"></div>
-
-  <!-- Nav -->
-  <nav>
-    <span class="nav-brand">Authority Makers</span>
-    <a href="#" class="nav-cta">See If Your Market Is Available</a>
-  </nav>
+  <!-- Logo top-right -->
+  <img id="logo" src="AM Logo black.png" alt="Authority Makers">
 
   <!-- Scroll hint -->
   <div id="scroll-hint">
@@ -269,52 +127,8 @@
     <div class="scroll-line"></div>
   </div>
 
-  <!-- Text blocks — each tied to a scroll fraction range -->
-
-  <!-- Block 1: Hero headline (left) -->
-  <div class="text-block left" data-start="0.00" data-end="0.18">
-    <p class="eyebrow">One Firm Per Market</p>
-    <h2>Become the most <em>trusted voice</em> in your market</h2>
-    <p>Better clients find your firm before they ever search for a competitor.</p>
-  </div>
-
-  <!-- Block 2: The problem (right) -->
-  <div class="text-block right" data-start="0.20" data-end="0.38">
-    <p class="eyebrow">The Problem</p>
-    <h2>Your competitor has less experience and <em>more visibility</em></h2>
-    <p>You built a firm on genuine expertise. But online, a less experienced competitor with a consistent content presence is capturing the clients your partners are better qualified to handle.</p>
-  </div>
-
-  <!-- Block 3: The cost (left) -->
-  <div class="text-block left" data-start="0.40" data-end="0.56">
-    <p class="eyebrow">The Cost of Waiting</p>
-    <h2>Every month without a presence is a month they <em>compound</em></h2>
-    <p>The gap between the dominant firm and the second-best option in a market is not talent. It is who got there first.</p>
-  </div>
-
-  <!-- Block 4: The system (right) -->
-  <div class="text-block right" data-start="0.58" data-end="0.74">
-    <p class="eyebrow">The Authority Engine</p>
-    <h2>Two hours a month. <em>Everything else</em> handled.</h2>
-    <p>One batch recording session. 60 short-form clips. 4 long-form YouTube videos. ManyChat automation routing qualified inquiries straight to a booked consultation.</p>
-  </div>
-
-  <!-- Block 5: Final CTA (center) -->
-  <div class="text-block center" data-start="0.78" data-end="1.00">
-    <p class="eyebrow">Your Market Might Still Be Available</p>
-    <h2>They became the channel their competitors are <em>watching</em></h2>
-    <a href="#" class="cta-btn">
-      See If Your Market Is Available
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-      </svg>
-    </a>
-    <p class="sub-note">One client per market · $4,500/month · 90-day minimum</p>
-  </div>
-
   <script>
     const video = document.getElementById('scrollVideo');
-    const textBlocks = document.querySelectorAll('.text-block');
     const scrollHint = document.getElementById('scroll-hint');
     const loader = document.getElementById('loader');
     let videoReady = false;
@@ -329,22 +143,16 @@
           videoReady = true;
           loader.classList.add('hidden');
         }).catch(() => {
-          // Autoplay blocked — video still seekable on most browsers
           videoReady = true;
           loader.classList.add('hidden');
         });
       }
     }
 
-    // Try to prime once metadata is ready
     video.addEventListener('loadedmetadata', primeVideo);
+    if (video.readyState >= 1) primeVideo();
 
-    // If metadata already loaded (cached), prime immediately
-    if (video.readyState >= 1) {
-      primeVideo();
-    }
-
-    // Fallback: hide loader and enable scrolling regardless
+    // Fallback
     setTimeout(() => {
       videoReady = true;
       loader.classList.add('hidden');
@@ -367,40 +175,8 @@
       } else {
         scrollHint.classList.remove('hidden');
       }
-
-      // Animate text blocks
-      textBlocks.forEach(block => {
-        const start = parseFloat(block.dataset.start);
-        const end = parseFloat(block.dataset.end);
-
-        if (scrollFraction >= start && scrollFraction <= end) {
-          const progress = (scrollFraction - start) / (end - start);
-
-          // Fade in first 30%, full middle, fade out last 30%
-          let opacity;
-          if (progress < 0.3) {
-            opacity = progress / 0.3;
-          } else if (progress > 0.7) {
-            opacity = (1 - progress) / 0.3;
-          } else {
-            opacity = 1;
-          }
-
-          const slideUp = progress < 0.3 ? (1 - progress / 0.3) * 30 : 0;
-
-          block.style.opacity = Math.max(0, Math.min(1, opacity));
-          if (block.classList.contains('center')) {
-            block.style.transform = `translateX(-50%) translateY(${slideUp}px)`;
-          } else {
-            block.style.transform = `translateY(${slideUp}px)`;
-          }
-        } else {
-          block.style.opacity = 0;
-        }
-      });
     }
 
-    // rAF-wrapped scroll listener
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
@@ -412,7 +188,6 @@
       }
     }, { passive: true });
 
-    // Run once on load in case page loads mid-scroll
     onScroll();
   </script>
 </body>
