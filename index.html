@@ -446,125 +446,140 @@
       background: var(--dark-surface);
     }
 
-    /* ── FEATURES GRID WITH HOVER EFFECTS ── */
-    .features-headline {
-      font-family: var(--font-heading);
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 700;
-      color: var(--text-light);
-      line-height: 1.2;
-      margin-bottom: 56px;
-      letter-spacing: -0.02em;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    /* ── COMPARISON: Two-column layout with 3D right side ── */
+    .compare-wrapper {
+      display: flex;
+      align-items: stretch;
       position: relative;
-      z-index: 10;
     }
 
-    .feature-card {
+    .compare-col {
       display: flex;
       flex-direction: column;
-      padding: 40px 36px;
-      position: relative;
-      border-right: 1px solid rgba(255,255,255,0.06);
-      cursor: default;
     }
 
-    /* Top row gets bottom border */
-    .feature-card[data-row="top"] {
+    /* Left column — flat, recessed */
+    .compare-col-left {
+      flex: 1;
+      background: rgba(15,15,18,0.95);
+      border-radius: 16px 0 0 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-right: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Right column — elevated 3D card */
+    .compare-col-right {
+      flex: 1;
+      background: var(--light-warm);
+      border-radius: 20px;
+      position: relative;
+      z-index: 2;
+      transform: translateY(-8px) scale(1.02);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.25),
+        0 24px 64px rgba(0,0,0,0.2),
+        0 2px 8px rgba(0,0,0,0.15),
+        -4px 0 20px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+    }
+    .compare-col-right:hover {
+      transform: translateY(-12px) scale(1.025);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.3),
+        0 32px 80px rgba(0,0,0,0.22),
+        0 2px 8px rgba(0,0,0,0.15),
+        -6px 0 28px rgba(0,0,0,0.12);
+    }
+
+    /* Column headers */
+    .compare-header {
+      padding: 36px 40px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+    }
+    .compare-header-left {
+      color: rgba(255,255,255,0.35);
+      font-size: 18px;
+      letter-spacing: 0.02em;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-
-    /* First and fifth cards get left border */
-    .feature-card:nth-child(1),
-    .feature-card:nth-child(5) {
-      border-left: 1px solid rgba(255,255,255,0.06);
-    }
-
-    /* Remove right border on last column */
-    .feature-card:nth-child(4n) {
-      border-right: 1px solid rgba(255,255,255,0.06);
-    }
-
-    /* Hover gradient overlay */
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .feature-card[data-row="top"]::before {
-      background: linear-gradient(to top, rgba(255,255,255,0.04), transparent);
-    }
-    .feature-card[data-row="bottom"]::before {
-      background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
-    }
-    .feature-card:hover::before {
-      opacity: 1;
-    }
-
-    /* Icon */
-    .feature-icon {
-      margin-bottom: 20px;
+    .compare-header-right {
+      color: #1a1a1a;
+      font-size: 26px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       position: relative;
-      z-index: 1;
-      color: rgba(255,255,255,0.45);
-      transition: color 0.3s ease;
-    }
-    .feature-card:hover .feature-icon {
-      color: rgba(255,255,255,0.7);
     }
 
-    /* Title with animated left bar */
-    .feature-title {
-      font-family: var(--font-heading);
-      font-size: 18px;
+    /* Cells */
+    .compare-cell {
+      padding: 26px 40px;
+      font-size: 16px;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: background 0.3s ease;
+    }
+
+    .compare-cell-left {
+      color: rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      text-decoration: line-through;
+      text-decoration-color: rgba(220,53,69,0.3);
+      text-decoration-thickness: 1px;
+    }
+    .compare-cell-left:hover {
+      background: rgba(220,53,69,0.03);
+    }
+    .compare-cell-left.compare-cell-last {
+      border-bottom: none;
+    }
+
+    .compare-cell-right {
+      color: #1a1a1a;
       font-weight: 600;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-      padding-left: 16px;
+      font-size: 19px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
     }
-    .feature-title::before {
-      content: '';
-      position: absolute;
-      left: -36px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 20px;
-      border-radius: 0 4px 4px 0;
-      background: rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
+    .compare-cell-right:hover {
+      background: rgba(0,0,0,0.03);
     }
-    .feature-card:hover .feature-title::before {
-      height: 28px;
-      background: var(--midnight);
-    }
-    .feature-title span {
-      display: inline-block;
-      color: var(--text-light);
-      transition: transform 0.3s ease;
-    }
-    .feature-card:hover .feature-title span {
-      transform: translateX(4px);
+    .compare-cell-right.compare-cell-last {
+      border-bottom: none;
     }
 
-    /* Description */
-    .feature-desc {
-      font-size: 15px;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.45);
-      max-width: 280px;
-      position: relative;
-      z-index: 1;
-      padding-left: 16px;
+    /* Icons */
+    .icon-x {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(220,53,69,0.1);
+      border: 1px solid rgba(220,53,69,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(220,53,69,0.5);
+    }
+
+    .icon-check {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #22863a;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(34,134,58,0.25);
     }
 
     /* ── HOW IT WORKS (Light/Warm) ── */
@@ -893,12 +908,25 @@
         gap: 16px;
       }
 
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .compare-wrapper {
+        flex-direction: column;
+        gap: 24px;
       }
-      .feature-card { padding: 32px 28px; }
-      .feature-title::before { left: -28px; }
-      .features-headline { margin-bottom: 40px; }
+      .compare-col-left {
+        border-radius: 16px;
+        border-right: 1px solid rgba(255,255,255,0.06);
+      }
+      .compare-col-right {
+        transform: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 12px 40px rgba(0,0,0,0.15);
+      }
+      .compare-col-right:hover {
+        transform: none;
+      }
+      .compare-header { padding: 28px 24px; }
+      .compare-cell { padding: 18px 24px; font-size: 15px; }
+      .compare-cell-right { font-size: 16px; }
 
       .hiw-steps {
         grid-template-columns: 1fr;
@@ -920,14 +948,6 @@
       }
       .glow-card, .glow-card-light { padding: 28px 20px; }
       .stat-tile { padding: 24px 16px; }
-      .features-grid { grid-template-columns: 1fr; }
-      .feature-card {
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        padding: 28px 24px;
-      }
-      .feature-card:last-child { border-bottom: none; }
-      .feature-title::before { left: -24px; }
     }
   </style>
 </head>
@@ -999,72 +1019,33 @@
         </div>
         <div class="stat-tile reveal reveal-delay-2">
           <div class="stat-number">3,200+</div>
-          <div class="stat-label">Qualified Meetings</div>
+          <div class="stat-label">Qualified Consultations</div>
         </div>
       </div>
     </section>
 
-    <!-- Why Us — Feature Grid with Hover Effects -->
+    <!-- Comparison Grid (Dark) -->
     <section id="compare" class="section">
       <div class="section-inner">
         <p class="section-label label-light reveal">Why Us</p>
-        <h2 class="features-headline reveal">Not another video agency.<br>A growth engine built for your firm.</h2>
-        <div class="features-grid">
-          <div class="feature-card reveal" data-row="top">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Optimized for revenue</span></h3>
-            <p class="feature-desc">Every piece of content is engineered to drive consultations, not vanity metrics.</p>
+        <div class="compare-wrapper reveal">
+          <!-- Left column (flat, recessed) -->
+          <div class="compare-col compare-col-left">
+            <div class="compare-header compare-header-left">Other Video Agencies</div>
+            <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Optimized for views</div>
+            <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Deliver content</div>
+            <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Measure success in likes and followers</div>
+            <div class="compare-cell compare-cell-left"><span class="icon-x">&#10005;</span> Generic content that could belong to any brand</div>
+            <div class="compare-cell compare-cell-left compare-cell-last"><span class="icon-x">&#10005;</span> You manage the strategy</div>
           </div>
-          <div class="feature-card reveal reveal-delay-1" data-row="top">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Client acquisition system</span></h3>
-            <p class="feature-desc">We don't just deliver content. We deliver a system that books qualified meetings.</p>
-          </div>
-          <div class="feature-card reveal" data-row="top">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <h3 class="feature-title"><span>One firm per market</span></h3>
-            <p class="feature-desc">Real exclusivity. We won't work with your competitor. Period.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1" data-row="top">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Two hours a month</span></h3>
-            <p class="feature-desc">One batch recording session. We handle research, editing, posting, and distribution.</p>
-          </div>
-          <div class="feature-card reveal" data-row="bottom">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Full-stack content engine</span></h3>
-            <p class="feature-desc">Strategy, scripting, filming frameworks, editing, publishing, and analytics. All handled.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1" data-row="bottom">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Mapped to your ideal client</span></h3>
-            <p class="feature-desc">Content is built around the exact case types and clients you want more of.</p>
-          </div>
-          <div class="feature-card reveal" data-row="bottom">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-            </div>
-            <h3 class="feature-title"><span>Measured in meetings</span></h3>
-            <p class="feature-desc">We track booked consultations and pipeline value. Not likes, not followers.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1" data-row="bottom">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            </div>
-            <h3 class="feature-title"><span>We run the entire engine</span></h3>
-            <p class="feature-desc">You show up once a month. We manage the rest. Strategy to distribution.</p>
+          <!-- Right column (elevated 3D card) -->
+          <div class="compare-col compare-col-right">
+            <div class="compare-header compare-header-right">Authority Makers</div>
+            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Optimized for revenue</div>
+            <div class="compare-cell compare-cell-right"><span class="icon-check">&#10003;</span> Deliver a client acquisition system</div>
+            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Measure success in qualified meetings</div>
+            <div class="compare-cell compare-cell-right" style="white-space:nowrap"><span class="icon-check">&#10003;</span> Content mapped to your client needs</div>
+            <div class="compare-cell compare-cell-right compare-cell-last"><span class="icon-check">&#10003;</span> We run the entire engine</div>
           </div>
         </div>
       </div>
