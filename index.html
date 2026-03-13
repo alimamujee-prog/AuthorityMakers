@@ -319,13 +319,40 @@
     #hero {
       background: var(--dark);
       padding: 140px 40px 120px;
-      text-align: center;
       position: relative;
+    }
+
+    .hero-layout {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .hero-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .hero-video {
+      flex-shrink: 0;
+      width: 340px;
+      aspect-ratio: 9 / 16;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .hero-video iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .hero-headline {
       font-family: var(--font-heading);
-      font-size: clamp(56px, 9vw, 120px);
+      font-size: clamp(48px, 7vw, 100px);
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -0.03em;
@@ -336,8 +363,8 @@
     .hero-sub {
       font-size: clamp(17px, 2vw, 20px);
       color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto 48px;
+      max-width: 520px;
+      margin: 0 0 48px;
       line-height: 1.7;
     }
 
@@ -801,6 +828,10 @@
       .section-inner { max-width: 100%; }
 
       #hero { padding: 100px 24px 80px; }
+      .hero-layout { flex-direction: column; gap: 40px; text-align: center; }
+      .hero-text { text-align: center; }
+      .hero-sub { margin: 0 auto 48px; }
+      .hero-video { width: 260px; }
 
       #social-proof { padding: 48px 24px; }
       .proof-stats-grid {
@@ -880,11 +911,16 @@
 
     <!-- Hero (Dark) -->
     <section id="hero">
-      <div class="section-inner">
-        <h1 class="hero-headline reveal">Become Undeniable.</h1>
-        <p class="hero-sub reveal">We turn your expertise into a video content engine that attracts better clients, filters bad ones, and fills your calendar.</p>
-        <a href="#final-cta" class="hero-cta reveal">Apply to Work With Us</a>
-        <p class="hero-micro reveal">We take on a limited number of new clients each month.</p>
+      <div class="hero-layout">
+        <div class="hero-text">
+          <h1 class="hero-headline reveal">Become Undeniable.</h1>
+          <p class="hero-sub reveal">We turn your expertise into a video content engine that attracts better clients, filters bad ones, and fills your calendar.</p>
+          <a href="#final-cta" class="hero-cta reveal">Apply to Work With Us</a>
+          <p class="hero-micro reveal">We take on a limited number of new clients each month.</p>
+        </div>
+        <div class="hero-video reveal">
+          <iframe src="https://www.youtube.com/embed/ZzAHOjF_Kps?autoplay=1&mute=1&loop=1&playlist=ZzAHOjF_Kps&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
       </div>
     </section>
 
