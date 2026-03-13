@@ -76,6 +76,52 @@
       100% { transform: translateX(350%); }
     }
 
+    /* ── Rotating gradient border for CTAs ── */
+    @property --r {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes rotateGradient {
+      to { --r: 360deg; }
+    }
+    .gradient-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      border-radius: 50px;
+      padding: 3px;
+      background: conic-gradient(from var(--r), #185E72, #1d9bb8, #c8a46e, #185E72);
+      animation: rotateGradient 3s linear infinite;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 16px var(--midnight-glow);
+      overflow: visible;
+      cursor: pointer;
+    }
+    .gradient-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(24,94,114,0.4), 0 0 48px rgba(24,94,114,0.15);
+    }
+    .gradient-btn span {
+      display: inline-block;
+      background: var(--midnight);
+      color: var(--text-light);
+      border-radius: 47px;
+      padding: 18px 44px;
+      font-size: 16px;
+      transition: background 0.3s ease;
+      width: 100%;
+      text-align: center;
+    }
+    .gradient-btn:hover span {
+      background: var(--midnight-hover);
+    }
+
     /* ══════════════════════════════════════════
        PERSISTENT NAV
     ══════════════════════════════════════════ */
@@ -152,37 +198,10 @@
     }
     .nav-links a:hover::after { width: 100%; }
 
-    .nav-cta {
-      display: inline-block;
+    .nav-cta span {
       padding: 12px 28px;
-      background: var(--midnight);
-      color: var(--text-light);
       font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
-      box-shadow: 0 2px 12px rgba(24,94,114,0.25);
     }
-    .nav-cta:hover {
-      background: var(--midnight-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(24,94,114,0.4), 0 0 40px rgba(24,94,114,0.15);
-    }
-    .nav-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.5s ease;
-    }
-    .nav-cta:hover::before { left: 100%; }
 
     /* ══════════════════════════════════════════
        VIDEO HERO ZONE
@@ -368,37 +387,7 @@
       line-height: 1.7;
     }
 
-    .hero-cta {
-      display: inline-block;
-      padding: 18px 44px;
-      background: var(--midnight);
-      color: var(--text-light);
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
-      box-shadow: 0 2px 16px var(--midnight-glow);
-    }
-    .hero-cta:hover {
-      background: var(--midnight-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(24,94,114,0.35), 0 0 48px rgba(24,94,114,0.12);
-    }
-    .hero-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.5s ease;
-    }
-    .hero-cta:hover::before { left: 100%; }
+    /* hero-cta now uses .gradient-btn */
 
     .hero-micro {
       margin-top: 16px;
@@ -749,37 +738,10 @@
       line-height: 1.7;
     }
 
-    .final-cta-btn {
-      display: inline-block;
+    .final-cta-btn span {
       padding: 20px 52px;
-      background: var(--midnight);
-      color: var(--text-light);
       font-size: 17px;
-      font-weight: 600;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
-      box-shadow: 0 4px 20px var(--midnight-glow);
     }
-    .final-cta-btn:hover {
-      background: var(--midnight-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 40px rgba(24,94,114,0.35), 0 0 60px rgba(24,94,114,0.12);
-    }
-    .final-cta-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-      transition: left 0.6s ease;
-    }
-    .final-cta-btn:hover::before { left: 100%; }
 
     .final-micro {
       margin-top: 16px;
@@ -862,8 +824,9 @@
 
     @media (max-width: 480px) {
       .hero-cta, .final-cta-btn {
-        display: block;
+        display: inline-flex;
         text-align: center;
+        width: auto;
       }
       .glow-card, .glow-card-light { padding: 28px 20px; }
       .stat-tile { padding: 24px 16px; }
@@ -886,7 +849,7 @@
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#final-cta">Contact</a></li>
       </ul>
-      <a href="#final-cta" class="nav-cta">Apply to Work With Us</a>
+      <a href="#final-cta" class="gradient-btn nav-cta"><span>Apply to Work With Us</span></a>
     </div>
   </nav>
 
@@ -915,7 +878,7 @@
         <div class="hero-text">
           <h1 class="hero-headline reveal">Become Undeniable.</h1>
           <p class="hero-sub reveal">We turn your expertise into a video content engine that attracts better clients, filters bad ones, and fills your calendar.</p>
-          <a href="#final-cta" class="hero-cta reveal">Apply to Work With Us</a>
+          <a href="#final-cta" class="gradient-btn hero-cta reveal"><span>Apply to Work With Us</span></a>
           <p class="hero-micro reveal">We take on a limited number of new clients each month.</p>
         </div>
         <div class="hero-video reveal">
@@ -1025,7 +988,7 @@
       <div class="section-inner">
         <h2 class="final-headline reveal">Ready to stop being the best-kept secret in your market?</h2>
         <p class="final-sub reveal">We only take on a limited number of new clients each month. When spots fill, we close applications until the next cycle.</p>
-        <a href="#final-cta" class="final-cta-btn reveal">Apply to Work With Us</a>
+        <a href="#final-cta" class="gradient-btn final-cta-btn reveal"><span>Apply to Work With Us</span></a>
         <p class="final-micro reveal">15-minute call. No pitch. Just an honest answer on whether we're a fit.</p>
       </div>
     </section>
