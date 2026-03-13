@@ -85,7 +85,7 @@
       background: var(--midnight-hover);
     }
 
-    /* ── NAV ── */
+    /* ── NAV (matches homepage exactly) ── */
     #nav {
       position: fixed;
       top: 0;
@@ -93,7 +93,7 @@
       right: 0;
       z-index: 100;
       padding: 0 56px;
-      height: 88px;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -111,7 +111,7 @@
     }
     .nav-logo:hover {
       transform: scale(1.05);
-      filter: brightness(1.15);
+      filter: drop-shadow(0 0 12px rgba(200,164,110,0.4));
     }
 
     .nav-right {
@@ -122,19 +122,40 @@
 
     .nav-links {
       display: flex;
+      gap: 32px;
       list-style: none;
-      gap: 36px;
     }
     .nav-links a {
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.6);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: color 0.3s ease;
+      letter-spacing: 0.03em;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
-    .nav-links a:hover { color: var(--text-light); }
-    .nav-links a.active { color: var(--text-light); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      border-radius: 1px;
+      transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 0 8px rgba(200,164,110,0.3);
+    }
+    .nav-links a:hover {
+      color: var(--text-light);
+      text-shadow: 0 0 16px rgba(255,255,255,0.15);
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active {
+      color: var(--text-light);
+    }
+    .nav-links a.active::after { width: 100%; }
 
     .nav-cta span {
       padding: 12px 28px;
@@ -144,7 +165,7 @@
     /* ── PAGE HEADER ── */
     .page-header {
       padding: 160px 40px 80px;
-      max-width: 1040px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -174,7 +195,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 1040px;
+      max-width: 1200px;
       margin: 0 auto 48px;
       padding: 0 40px;
     }
@@ -226,19 +247,20 @@
 
     .carousel-track-wrapper {
       overflow: hidden;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
     }
     .carousel-track {
       display: flex;
       gap: 24px;
       transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      padding-left: max(40px, calc((100vw - 1040px) / 2 + 40px));
-      padding-right: 40px;
     }
 
     /* ── CARDS ── */
     .story-card {
       flex-shrink: 0;
-      width: 340px;
+      width: 360px;
       border-radius: 16px;
       overflow: hidden;
       position: relative;
@@ -349,18 +371,35 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      #nav { padding: 0 24px; height: 72px; }
+      #nav { padding: 0 24px; height: 64px; }
       .nav-links { display: none; }
       .nav-logo { height: 36px; }
       .nav-cta span { padding: 10px 20px; font-size: 13px; }
 
-      .page-header { padding: 120px 24px 60px; }
-      .carousel-nav { padding: 0 24px; }
-      .carousel-track { padding-left: 24px; padding-right: 24px; gap: 16px; }
+      .page-header { padding: 110px 20px 48px; }
+      .page-header h1 { font-size: clamp(32px, 8vw, 48px); }
+      .page-header p { font-size: 15px; }
+
+      .carousel-nav { padding: 0 20px; margin-bottom: 32px; }
+      .carousel-track-wrapper { padding: 0 20px; }
+      .carousel-track { gap: 16px; }
       .story-card { width: 280px; }
       .story-card-img { height: 380px; }
       .carousel-arrows { display: none; }
-      .results-cta { padding: 80px 24px 100px; }
+
+      .results-cta { padding: 80px 20px 100px; }
+      .results-cta h2 { font-size: clamp(24px, 6vw, 36px); }
+      .gradient-btn span { padding: 16px 32px; font-size: 15px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-header { padding: 100px 16px 40px; }
+      .carousel-track-wrapper { padding: 0 16px; }
+      .carousel-nav { padding: 0 16px; }
+      .story-card { width: 260px; }
+      .story-card-img { height: 340px; }
+      .story-card-title { font-size: 19px; }
+      .results-cta { padding: 64px 16px 80px; }
     }
   </style>
 </head>
@@ -483,17 +522,16 @@
     });
 
     function getCardWidth() {
-      const card = cards[0];
-      const gap = 24;
-      return card.offsetWidth + gap;
+      const gap = parseFloat(getComputedStyle(track).gap) || 24;
+      return cards[0].offsetWidth + gap;
     }
 
     function getMaxIndex() {
-      const trackWrapper = track.parentElement;
-      const visibleWidth = trackWrapper.offsetWidth;
-      const totalWidth = cards.length * getCardWidth();
-      const maxScroll = totalWidth - visibleWidth + 40;
-      return Math.max(0, Math.ceil(maxScroll / getCardWidth()));
+      const wrapperWidth = track.parentElement.offsetWidth;
+      const totalWidth = cards.length * getCardWidth() - (parseFloat(getComputedStyle(track).gap) || 24);
+      const maxScroll = totalWidth - wrapperWidth;
+      if (maxScroll <= 0) return 0;
+      return Math.ceil(maxScroll / getCardWidth());
     }
 
     function goTo(index) {
@@ -517,16 +555,19 @@
 
     // Touch/swipe support
     let touchStartX = 0;
-    let touchEndX = 0;
     track.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
     track.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
+      const diff = touchStartX - e.changedTouches[0].screenX;
       if (Math.abs(diff) > 50) {
         if (diff > 0) goTo(currentIndex + 1);
         else goTo(currentIndex - 1);
       }
     }, { passive: true });
+
+    // Recalculate on resize
+    window.addEventListener('resize', () => {
+      goTo(Math.min(currentIndex, getMaxIndex()));
+    });
 
     updateControls();
 
